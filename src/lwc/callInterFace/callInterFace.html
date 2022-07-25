@@ -1,0 +1,21 @@
+<!--
+ - Created by ms on 2022-07-25.
+ -->
+
+<!-- Call Inter Face -->
+<template>
+    <template if:true={recordId}>
+        <lightning-quick-action-panel header="인터페이스 호출">
+            response : {response}
+            <div slot="footer">
+                <lightning-button
+                        class="slds-m-left_xx-small"
+                        label="닫기"
+                        variant="neutral"
+                        onclick={handleClose}>
+                </lightning-button>
+            </div>
+
+        </lightning-quick-action-panel>
+    </template>
+</template>
