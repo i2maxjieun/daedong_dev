@@ -7,7 +7,7 @@ public with sharing class AccountService {
     public static Map<String, String> IF_KR_SE_HEROKU_0001(String recordId) {
 
         Map<String, String> returnMap = new Map<String, String>();
-
+        //인터페이스 데이터 취득
         List<Contact> inputContacts = [
                 SELECT  Id,
                         Name,
@@ -19,11 +19,13 @@ public with sharing class AccountService {
                 WHERE AccountId = :recordId
         ];
 
+        // 인터페이스 apex data mapping 후 데이터 담음
         IF_KR_SE_HEROKU_0001           instance = IF_KR_SE_HEROKU_0001.getInstance();
         IF_KR_SE_HEROKU_0001.InputDIH  input = new IF_KR_SE_HEROKU_0001.InputDIH();
         IF_KR_SE_HEROKU_0001.T_DATA    tData;
         IF_KR_SE_HEROKU_0001.OutputDIH result;
 
+        // select data 맵핑
         for(Contact con : inputContacts){
             tData = new IF_KR_SE_HEROKU_0001.T_DATA();
 
@@ -36,6 +38,7 @@ public with sharing class AccountService {
             input.request.payload.t_data.add(tData);
         }
 
+        // 인터페이스 호출
         if(!input.request.payload.t_data.isEmpty()){
             result = instance.execute(input);
         }

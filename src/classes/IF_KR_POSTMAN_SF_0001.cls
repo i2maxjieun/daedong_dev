@@ -133,7 +133,7 @@ global with sharing class IF_KR_POSTMAN_SF_0001 extends IF_Base {
             /* 업무 개발자에 의해 변경되어야 하는 부분 끝(선행) */
 
             /* 업무 개발자에 의해 변경되어야 하는 부분 시작(후행)
-            *   dummy object dml 수행
+            *   IF_KR_POSTMAN_SF_0001_BIZ 에서 dummy object dml 수행
             * */
             outputRes.Payload = bizInstance.post(inputReq.Payload, outputRes.Payload);
             /* 업무 개발자에 의해 변경되어야 하는 부분 끝(후행) */

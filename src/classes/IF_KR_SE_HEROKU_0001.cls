@@ -7,6 +7,9 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
 
     private static String IFURL;
 
+    /**
+     * JSON 데이터 매핑 변수 입력
+     */
     public class T_DATA  {
         public String Id                           ;
         public String Name                         ;
@@ -14,6 +17,10 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
         public String Email                        ;
         public String AccountId                    ;
     }
+
+    /**
+     * 수정 불필요 (그대로 사용)
+     */
     public class InputBody {
         public List<T_DATA> t_data;
         public InputBody() {
@@ -21,10 +28,15 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
         }
     }
 
+    /**
+     * 수정 불필요 (그대로 사용)
+     */
     public class OutputBody {
         public List<T_DATA> t_data;
-    }    /**
-     * Input / Output innerClass
+    }
+
+    /**
+     * 수정 불필요 (그대로 사용)
      */
     public class Input extends Headers{
         public InputBody payload;
@@ -32,6 +44,10 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
             payload = new InputBody();
         }
     }
+
+    /**
+     * 수정 불필요 (그대로 사용)
+     */
     public class Output extends Headers{
         public OutputBody payload;
         public Output(){
@@ -39,8 +55,7 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
         }
     }
     /**
-     * DIH
-     * Input / Output innerClass
+     * 수정 불필요 (그대로 사용)
      */
     public class InputDIH {
         public Input request;
@@ -48,6 +63,10 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
             request = new Input();
         }
     }
+
+    /**
+     * 수정 불필요 (그대로 사용)
+     */
     public class OutputDIH {
         public Output response;
         public OutputDIH(){
@@ -56,16 +75,19 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
     }
 
     /**
-     * constructor
-     * (endpoint URL setting)
+     regacy 시스템 url 정보 취득 (IF_Base.getIfinfo())
      */
     private IF_KR_SE_HEROKU_0001() {
-        //IFURL = ifInfo.URL__c;
-        IFURL = 'https://i2chicken.herokuapp.com/api/json';
+        System.debug(IFID+' call');
+
+        IF_INFO__c ifInfo = getIfinfo(IFID);
+        IFURL = ifInfo.URL__c;
+
+        System.debug(ifInfo.TITLE__c+' call start');
     }
 
     /**
-     * singleton
+     * 개체생성 (수정 불필요)
      */
     private static IF_KR_SE_HEROKU_0001 sInstance = null;
     public static IF_KR_SE_HEROKU_0001 getInstance() {
@@ -76,8 +98,7 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
     }
 
     /**
-     * JSON
-     * Schedulable
+     * realActioin or Batch 에서 execute 호출
      */
     public OutputDIH execute(InputDIH inputObj) {
         OutputDIH outputObj = new OutputDIH();
@@ -99,13 +120,13 @@ public with sharing class IF_KR_SE_HEROKU_0001 extends IF_Base {
             inputReq.Payload = bizInstance.pre(inputReq.Payload);
             /* 업무 개발자에 의해 변경되어야 하는 부분 끝(선행) */
 
-            // JSON TO STRING
+            // JSON 타입으로 변경
             req = JSON.serialize(inputObj);
 
-            // RESPONSE SET
+            // regacy 시스템 호출
             res = webCallOut(req, IFURL);
 
-            // STRING(JSON) TO OBJECT
+            // response 데이터 확인
             outputObj = (OutputDIH)JSON.deserialize(res, OutputDIH.class);
             //outputObj = (OutputDIH)JSON.deserialize('{"response":{"payload":{"ifAggregation":"eb3ca924-cc40-91d4-b69d-587c4004d296","ifSplitSeq":"","ifSplitCnt":"","ifTotCnt":"","t_data":[{"Email":"jrogers@burlington.com","AccountId":"0015i00000ADaMRAA1","Id":"0035i000008j1VkAAI","Name":"Rogers Jack","AccountName":"Burlington Textiles Corp of America"}]},"header":{"ifDateTime":"20220725063738","ifReceiverGp":"LSMTRON","ifResult":"","ifTrackingId":"6d946f9b-3908-b68a-7275-26e6109636cb","ifReceiver":"SE","ifId":"IF_KR_START_END_0001","ifFailCode":"","ifSenderGp":"LSMTRON","ifFailMsg":"","ifSender":"SE"}}}', OutputDIH.class);
 
